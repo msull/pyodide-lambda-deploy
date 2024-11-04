@@ -1,0 +1,8 @@
+boto3
+fastapi
+mangum
+pydantic
+requests
+simplesingletable
+supersullytools
+starlette

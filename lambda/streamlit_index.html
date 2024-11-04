@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no"
+  />
+  <title>Automated Data Prep</title>
+  <link
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/@stlite/mountable@0.69.2/build/stlite.css"
+  />
+</head>
+<body>
+<div id="root"></div>
+<script src="https://cdn.jsdelivr.net/npm/@stlite/mountable@0.69.2/build/stlite.js"></script>
+<script>
+      stlite.mount({
+            // Fetch the Streamlit app code from the Lambda function
+            entrypoint: 'streamlit_app.py',
+            mountPoint: document.getElementById('root'),
+            files: {
+              "streamlit_app.py": {
+                url: "streamlit_app.py",
+              }
+            },
+        });
+
+
+
+</script>
+</body>
+</html>
