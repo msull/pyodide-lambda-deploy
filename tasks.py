@@ -10,6 +10,7 @@ class Paths:
 
     compiled_flet_src = flet_app / "build" / "web"
     compiled_flet_dest = repo_root / "lambda" / "flet_app"
+    stack_output_file = repo_root / "stack_output.json"
 
 
 @task
@@ -29,4 +30,6 @@ def deploy_infra(c: Context):
         )
 
     with c.cd(Paths.infra_dir):
-        c.run("cdk deploy")
+        c.run(
+            f"cdk deploy --require-approval never --outputs-file {Paths.stack_output_file.absolute()}"
+        )
