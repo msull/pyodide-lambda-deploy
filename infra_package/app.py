@@ -54,59 +54,6 @@ class BasicAppStack(Stack):
             environment={"DYNAMODB_TABLE": table.table_name},
         )
 
-        # Add Global Secondary Indexes
-
-        # GSI: gsitype
-        table.add_global_secondary_index(
-            index_name="gsitype",
-            partition_key=aws_dynamodb.Attribute(
-                name="gsitype", type=aws_dynamodb.AttributeType.STRING
-            ),
-            sort_key=aws_dynamodb.Attribute(
-                name="gsitypesk", type=aws_dynamodb.AttributeType.STRING
-            ),
-            projection_type=aws_dynamodb.ProjectionType.ALL,
-        )
-
-        # GSI: gsi1
-        table.add_global_secondary_index(
-            index_name="gsi1",
-            partition_key=aws_dynamodb.Attribute(
-                name="gsi1pk", type=aws_dynamodb.AttributeType.STRING
-            ),
-            sort_key=aws_dynamodb.Attribute(
-                name="pk", type=aws_dynamodb.AttributeType.STRING
-            ),
-            projection_type=aws_dynamodb.ProjectionType.ALL,
-        )
-
-        # GSI: gsi2
-        table.add_global_secondary_index(
-            index_name="gsi2",
-            partition_key=aws_dynamodb.Attribute(
-                name="gsi2pk", type=aws_dynamodb.AttributeType.STRING
-            ),
-            sort_key=aws_dynamodb.Attribute(
-                name="pk", type=aws_dynamodb.AttributeType.STRING
-            ),
-            projection_type=aws_dynamodb.ProjectionType.ALL,
-        )
-
-        # GSI: gsi3
-        table.add_global_secondary_index(
-            index_name="gsi3",
-            partition_key=aws_dynamodb.Attribute(
-                name="gsi3pk", type=aws_dynamodb.AttributeType.STRING
-            ),
-            sort_key=aws_dynamodb.Attribute(
-                name="gsi3sk", type=aws_dynamodb.AttributeType.STRING
-            ),
-            projection_type=aws_dynamodb.ProjectionType.ALL,
-        )
-
-        # Grant full CRUD permissions to the Lambda function
-        table.grant_full_access(lambda_function)
-
         # Add the Function URL
         function_url = lambda_function.add_function_url(
             auth_type=aws_lambda.FunctionUrlAuthType.NONE,  # We're handling auth in code
@@ -119,7 +66,6 @@ class BasicAppStack(Stack):
 
         # Output the Function URL
         cdk.CfnOutput(self, "FunctionUrl", value=function_url.url)
-        cdk.CfnOutput(self, "TableName", value=table.table_name)
 
 
 app = cdk.App()

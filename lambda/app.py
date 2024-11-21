@@ -75,6 +75,39 @@ def read_flet_file(name: str = "index.html"):
         raise HTTPException(status_code=404, detail=f"{name} not found in flet_app")
 
 
+@app.get("/streamlitdemos/{load_demo:path}")
+# @app.get("/streamlitdemos")
+def load_demo_app(load_demo: str = None):
+    try:
+        with open("streamlit_demoapps/files/" + load_demo + ".py", "r"):
+            pass
+    except FileNotFoundError:
+        return Response(status_code=404)
+
+    with open("streamlit_demoapps/api_demo.html") as f:
+        content = f.read()
+        content = content.replace("STREAMLIT_DEMO_FILE.py", load_demo + ".py")
+        return Response(status_code=200, media_type="text/html", content=content)
+
+
+@app.get("/streamlitdemos/files/<demo_app_file>")
+def load_demo_app_files(demo_app_file: str = None):
+    try:
+        # Define the base directory and secure the file path
+        base_directory = "streamlit_demoapps/files/"
+        safe_path = os.path.abspath(os.path.join(base_directory, demo_app_file))
+
+        # Ensure the safe path is within the base directory
+        if not safe_path.startswith(os.path.abspath(base_directory)):
+            return Response(status_code=403)
+
+        # Open and read the file if it exists within the safe path
+        with open(safe_path, "r") as f:
+            return Response(status_code=200, media_type="text/plain", content=f.read())
+    except FileNotFoundError:
+        return Response(status_code=404)
+
+
 @app.get("/pyodide", response_class=Response)
 def read_index():
     try:
