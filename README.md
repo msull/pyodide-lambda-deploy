@@ -11,6 +11,3 @@ This template sets up a single AWS Lambda function that serves:
 - A Streamlit app
 
 Each example leverages Pyodide, allowing Python to run directly in the browser.
-
-The CDK app also provisions a DynamoDB table with a general-purpose schema. This schema is compatible with
-my `simplesingletable` tool, enabling low-cost storage and efficient querying.
